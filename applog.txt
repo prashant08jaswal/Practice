@@ -1,0 +1,12 @@
+WARN    2019-05-26 14:46:22,990 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.WorkflowOnChangeObserver  - WorkflowOnChangeObserver observer executed
+WARN    2019-05-26 14:46:22,995 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.StatusOnChangeObserver  - WorkflowOnChangeObserver observer executed
+INFO    2019-05-26 14:46:22,996 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.StatusOnChangeObserver  - Status Changed has executed the trigger
+INFO    2019-05-26 14:46:22,997 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.StatusOnChangeObserver  - New Properties are : {eventType=Status}
+WARN    2019-05-26 14:47:09,402 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.WorkflowOnChangeObserver  - WorkflowOnChangeObserver observer executed
+WARN    2019-05-26 14:47:09,405 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.StatusOnChangeObserver  - StatusOnChangeObserver observer executed
+INFO    2019-05-26 14:47:09,405 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.StatusOnChangeObserver  - Status Changed has executed the trigger
+INFO    2019-05-26 14:47:09,406 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.StatusOnChangeObserver  - New Properties are : {eventType=Status}
+WARN    2019-05-26 14:47:27,287 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.WorkflowOnChangeObserver  - WorkflowOnChangeObserver observer executed
+INFO    2019-05-26 14:47:27,290 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.WorkflowOnChangeObserver  - Workflow Changed has executed the trigger
+INFO    2019-05-26 14:47:27,291 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.WorkflowOnChangeObserver  - New Properties are : {eventType=Workflow}
+WARN    2019-05-26 14:47:27,292 [main] com.pshat.learning.designpatterns.observerdp.interfaces.impl.StatusOnChangeObserver  - StatusOnChangeObserver observer executed
