@@ -10,6 +10,11 @@ import java.util.Map;
 /**
  * Created by Prashant on 26-05-2019.
  */
+
+/*
+    One of the observer, although it will be called whenever there is state change
+    but it's execute method will execute business logic on certain conditions.
+ */
 public class WorkflowOnChangeObserver implements Observer{
     private Subject subject;
     private Logger logger = Logger.getLogger(getClass());

@@ -9,9 +9,19 @@ import java.util.*;
 /**
  * Created by Prashant on 26-05-2019.
  */
+
+
 public class Trigger implements Subject {
+    /*
+      Data properties, taken as map, so in case new property needs to be added,
+      there won't be any change in the Structure.
+    */
     private Map<String,String> properties = new HashMap();
-    private Set<Observer> observerSet = new LinkedHashSet();
+
+    /*
+        List of observers.
+     */
+    private List<Observer> observerSet = new ArrayList<>();
 
     public void registerObserver(Observer observer) {
         observerSet.add(observer);

@@ -9,7 +9,8 @@ public enum ObserverEnums {
     WORKFLOW_EVENT("Workflow");
 
     private String value;
-    private ObserverEnums(String value){
+
+    ObserverEnums(String value){
         this.value = value;
     }
 
