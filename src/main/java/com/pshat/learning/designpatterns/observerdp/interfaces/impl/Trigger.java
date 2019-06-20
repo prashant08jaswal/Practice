@@ -11,6 +11,14 @@ import java.util.*;
  */
 
 
+/*
+Disadvantage of Observer Design Pattern in Java:
+ 1   The disadvantage is that the sometime if any problem comes,
+    debugging becomes very difficult because flow of control is implicitly between observers and observable
+    we can predict that now observer is going to fire and if there is chain between observers then debugging become more complex.
+ 2  Another issue is Memory management because subject will hold all the reference of all the observers if we not unregister the object it can create the memory issue.
+ */
+
 public class Trigger implements Subject {
     /*
       Data properties, taken as map, so in case new property needs to be added,
