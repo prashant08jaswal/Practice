@@ -61,14 +61,42 @@ public class FindSubArraySum {
         return false;
     }
 
-    public static void main(String[] args) {
-        FindSubArraySum findSubArraySumZero = new FindSubArraySum();
+    /*
+        Approach here is :-
+        1 in case of binary array where we need to find the length of a sub array whose 0 and 1 are equal, we should make
+          the 0 as -1.
+        2 Now as previous example just keep on adding the array elements prefixly,till n.
+        3 as soon as prefixSum sum is 0 , assign the subArrayLength to i+1(index + 1). It will keep on changing throughout the
+          iteration only if further elements are balanced.
+     */
+    public int findLargestSubArrayLengthWithEqualZeroAndOne(){
+        int[] inputArray = {0,1,1,0,1,0,1,0,1,0,0};
+        int subArrayLength = 0;
+        int prefixSum = 0;
+        for(int i=0; i < inputArray.length; i++){
+            if(inputArray[i] == 0){
+                inputArray[i] = -1;
+            }
+        }
+        for(int i=0; i < inputArray.length; i++){
+            prefixSum +=inputArray[i];
+            if (prefixSum == 0)
+                subArrayLength = i+1;
+        }
+        return subArrayLength;
+    }
 
-        boolean isSubArrayZero = findSubArraySumZero.isSubArraySumZero();
+    public static void main(String[] args) {
+        FindSubArraySum findSubArraySum = new FindSubArraySum();
+
+        boolean isSubArrayZero = findSubArraySum.isSubArraySumZero();
         System.out.println("Is Sub Array Contain Zero " + isSubArrayZero);
 
-        boolean isSubArraySumEqualToGivenValue = findSubArraySumZero.isSubArraySumEqualToGivenValue();
+        boolean isSubArraySumEqualToGivenValue = findSubArraySum.isSubArraySumEqualToGivenValue();
         System.out.println("Is Sub Array Contain given Value " + isSubArraySumEqualToGivenValue);
+
+        int length = findSubArraySum.findLargestSubArrayLengthWithEqualZeroAndOne();
+        System.out.println("Length of largest sub array with equal zero and one is: " + length);
 
     }
 }
