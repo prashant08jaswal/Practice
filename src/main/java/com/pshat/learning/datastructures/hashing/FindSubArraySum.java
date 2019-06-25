@@ -8,6 +8,7 @@ import java.util.Set;
  */
 public class FindSubArraySum {
     /*
+    To check whether sub array's sum is zero or not.
     Approach here is :-
         1  we will take a hash based collection, here I have taken Hashset.
         2  We will add all the element prefixly , then we will check for sum.
@@ -33,6 +34,7 @@ public class FindSubArraySum {
     }
 
     /*
+    To check whether subArray sum is equal to given value or not
    Approach here is :-
        1  we will take a hash based collection, here I have taken Hashset.
        2  We will add all the element prefixly , then we will check for sum(checkSum).
@@ -62,6 +64,7 @@ public class FindSubArraySum {
     }
 
     /*
+    Find the largest sub array with equal zero and one.
         Approach here is :-
         1 in case of binary array where we need to find the length of a sub array whose 0 and 1 are equal, we should make
           the 0 as -1.
@@ -86,17 +89,27 @@ public class FindSubArraySum {
         return subArrayLength;
     }
 
-    public static void main(String[] args) {
-        FindSubArraySum findSubArraySum = new FindSubArraySum();
-
-        boolean isSubArrayZero = findSubArraySum.isSubArraySumZero();
-        System.out.println("Is Sub Array Contain Zero " + isSubArrayZero);
-
-        boolean isSubArraySumEqualToGivenValue = findSubArraySum.isSubArraySumEqualToGivenValue();
-        System.out.println("Is Sub Array Contain given Value " + isSubArraySumEqualToGivenValue);
-
-        int length = findSubArraySum.findLargestSubArrayLengthWithEqualZeroAndOne();
-        System.out.println("Length of largest sub array with equal zero and one is: " + length);
-
+    /*
+        Need only 2 elements which can make the given sum.
+        Approach is
+        1 iterate inputarray from 0 to n
+        2 subtract each element from array with the given sum (it is denoted by result). And if the result doesn't
+          exist in hashset then insert the element & iterate further.
+          But if the result already exists, it means the element which is being iterated & the result makes a pair.
+     */
+    public boolean doesAPairExistForGivenSum(){
+        int[] inputArray = {3,5,2,8,11,7};
+        int sum = 16;
+        HashSet<Integer> hashSet = new HashSet<>();
+        for(int i=0;i<inputArray.length;i++){
+            int item = inputArray[i];
+            int result = sum-item;
+            if(!hashSet.contains(result)){
+                hashSet.add(item);
+            }else{
+                return true;
+            }
+        }
+        return false;
     }
 }
