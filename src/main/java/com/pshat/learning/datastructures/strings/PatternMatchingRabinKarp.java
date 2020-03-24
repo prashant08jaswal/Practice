@@ -12,7 +12,7 @@ public class PatternMatchingRabinKarp {
 	private final static int primeNumber = 3;
 	
 	public static void main(String[] args) {
-		String inputString = "GEEKS FOR GEEKS";
+		String inputString = "GEEKS FOR GEEK";
 		String pattern = "GEEK";
 		List<Integer> occurrenceList = getPatterMatchingIndex(inputString, pattern.toCharArray());
 		System.out.println(occurrenceList);
@@ -23,7 +23,7 @@ public class PatternMatchingRabinKarp {
 		int patternHashValue = hashcode(pattern);
 		int hashValue = -1;
 		int loopLength = (inputString.length() - pattern.length);
-		for(int i=0;i<loopLength;){
+		for(int i=0;i<=loopLength;){
 			String subString = inputString.substring(i,i+pattern.length);
 			char[] subStringArray = subString.toCharArray();
 			if(i == 0 ) {
