@@ -13,6 +13,8 @@ import java.util.Set;
  * 6 delete an element from the list, in O(1) time. element won't be the last element(tricky question) - deleteNonLastElement()
  * 7 Assuming the list contains the integer data, print the list even and odd. even will comes first - printListEvenAndOdd()
  * 8 Print nth node from end of linked list - printNthNodeFromTheEnd()
+ * 9 reversing a list iteratively - reverseListIteratively()
+ * 10 detect a loop in a linkedlist using floyd techniquer - detectALoop()
  */
 public class SinglyLinkedList {
 	
@@ -23,17 +25,20 @@ public class SinglyLinkedList {
 	 * 1. If the headNode is null, means the list is empty, we will set the headNode.
 	 * 2  else we will traverse the list, till we find the last element, and then we will  
 	 */
-	public void insert(int data) {
+	public SinglyNode insert(int data) {
+		SinglyNode newNode = null;
 		if(this.headNode == null) {
-			this.headNode = new SinglyNode(null,data);
+			newNode = new SinglyNode(null,data);
+			this.headNode = newNode;
 		}else {
 			SinglyNode insertAfter = this.headNode;
 			while(insertAfter.getNext() != null) {
 				insertAfter = insertAfter.getNext();
 			}
-			SinglyNode newNode = new SinglyNode(null,data);
+			newNode = new SinglyNode(null,data);
 			insertAfter.setNext(newNode);
 		}
+		return newNode;
 	}
 	
 	/**
@@ -248,6 +253,60 @@ public class SinglyLinkedList {
 			System.out.println("Invalid n number");
 		}
 	}
+	/**
+	 * Approach
+	 * 1 we will just change the references or link .
+	 * 2 we will just use 3 varaibles previous,current,next to change the links
+	 * 3 we will mark the original head.setNext as null, and the original last element as head.
+	 */
+	
+	public void reverseListIteratively() {
+		SinglyNode currentNode = this.headNode;
+		SinglyNode nextNode  = currentNode.getNext();
+		currentNode.setNext(null);
+		while(nextNode != null) {
+			SinglyNode previousNode = currentNode;
+			currentNode = nextNode;
+			nextNode = nextNode.getNext();
+			currentNode.setNext(previousNode);
+		}
+		this.headNode = currentNode;
+		printAll();
+	}
+	
+	
+	/**
+	 * Approach
+	 * 1 we will take slow and fast pointer.slow will move 1 node at a time, while fast will move 2 node at a time.
+	 * 2 If the fast pointer is encountered with null, it means that there is no loop
+	 * 3 if slow and fast pointer meet at some point, it means there exists a loop. 
+	 * 
+	 * Alternate Approach 1
+	 * If we are allowed to modify the structure of the linkedlist,we will add a reference variable isVisited, everytime we will visit a node
+	 * we will mark it as true. and during the list traversal if we encounter a node marked isVisited = true, then there exists a loop.
+	 * 
+	 * Alternate Approach 2
+	 * 	1 Modification to list references.but it will make the list useless.
+	 * 	2 We will create a dummy node, while traversing every node, we will store it's next in some temporary node, so that we can continue from there
+	 *    and we will mark the node.setNext() to be the dummy node, while traversing if we encounter some node already having a reference to the  dummyNode, means a loop exist.
+	 *    
+	 * Alternate Approach 3
+	 * Hashing :- we will insert every node in a hashset, if in hashset there already exists a node which we are trying to insert, it means a loop exists.
+	 */
+	public void detectALoop(SinglyNode head) {
+		SinglyNode fastPointer = head;
+		SinglyNode slowPointer = head;
+		boolean doesLoopExist = false;
+		while(fastPointer != null && fastPointer.getNext() != null) {
+			slowPointer = slowPointer.getNext();
+			fastPointer = fastPointer.getNext().getNext();
+			if(fastPointer == slowPointer) {
+				doesLoopExist = true;
+				break;
+			}
+		}
+		System.out.println("Does loop exist? " + doesLoopExist);
+	}
 	
 	//TODO test it
 	public static void printIntersectionOfListApproach1(SinglyNode headNode1,SinglyNode headNode2) {
@@ -275,14 +334,6 @@ public class SinglyLinkedList {
 			System.out.println("No intersectionnode exists");
 	}
 	
-	//TODO
-	public void reverseListIteratively() {
-		SinglyNode currentNode = this.headNode;
-		while(currentNode != null) {
-			
-		}
-	}
-
 	public SinglyNode getHeadNode() {
 		return headNode;
 	}
