@@ -14,7 +14,10 @@ import java.util.Set;
  * 7 Assuming the list contains the integer data, print the list even and odd. even will comes first - printListEvenAndOdd()
  * 8 Print nth node from end of linked list - printNthNodeFromTheEnd()
  * 9 reversing a list iteratively - reverseListIteratively()
- * 10 detect a loop in a linkedlist using floyd techniquer - detectALoop()
+ * 10 detect a loop in a linkedlist using floyd technique - detectALoop()
+ * 11 detect and remove loop using floyd technique - detectAndRemoveLoop()
+ * 12 Print the intersection of 2 linked list, if it exists - printIntersectionOfList()
+ * 13 Pair wise swap node - pairWiseSwapNode()
  */
 public class SinglyLinkedList {
 	
@@ -307,9 +310,54 @@ public class SinglyLinkedList {
 		}
 		System.out.println("Does loop exist? " + doesLoopExist);
 	}
+	/**
+	 * Approach 
+	 * We will detect the loop using same technique that we used above,
+	 * but now to remove the loop whenever the slow and fast meet at a point,
+	 * we will take the slow to head, and now both fast and slow will move at 1 pace
+	 * now where they will meet will be the loop starting point, so we will just make the node before meeting point as null,
+	 * hence ending the loop.
+	 */
+	public static void detectAndRemoveLoop(SinglyNode head) {
+		SinglyNode fastPointer = head;
+		SinglyNode slowPointer = head;
+		boolean doesLoopExist = false;
+		while(fastPointer != null && fastPointer.getNext() != null) {
+			slowPointer = slowPointer.getNext();
+			fastPointer = fastPointer.getNext().getNext();
+			if(fastPointer == slowPointer) {
+				doesLoopExist = true;
+				break;
+			}
+		}
+		if(doesLoopExist) {
+			slowPointer = head;
+			SinglyNode lastNode = null;
+			while(slowPointer != fastPointer) {
+				lastNode = fastPointer;
+				slowPointer = slowPointer.getNext();
+				fastPointer = fastPointer.getNext();
+			}
+			lastNode.setNext(null);
+		}
+	}
 	
-	//TODO test it
-	public static void printIntersectionOfListApproach1(SinglyNode headNode1,SinglyNode headNode2) {
+	/**
+	 * Approach 1
+	 * 1 Use hashset, insert all the elements of one list in it
+	 * 2 Now check if the element of second list is present or not
+	 * 3 if it does, it is the intersectionnode
+	 * Apprach 2
+	 * If the modification allows, insert a boolean flag of isVisited, while traversing if
+	 * element is marked with true, it is an intersection node
+	 * Approach3
+	 * 1 Count the number of node in both list,
+	 * 2 subtract the count , traverse both the list concurrently, but first for the bigger list
+	 * firstly traverse till the count that we got from the subtraction, then once
+	 * both the list are of equal size now, compare each and every element, if an element matches
+	 * then it is the intersection point
+	 */
+	public static void printIntersectionOfList(SinglyNode headNode1,SinglyNode headNode2) {
 		Set<SinglyNode> set = new HashSet<>();
 		SinglyNode node = headNode1;
 		SinglyNode interSectionNode = null;
@@ -332,6 +380,39 @@ public class SinglyLinkedList {
 			System.out.println("interSectionNode is " + interSectionNode.getData());
 		else
 			System.out.println("No intersectionnode exists");
+	}
+	
+	/**
+	 * Approach 1
+	 * 1 In this we will replace the links only, and will change the links only in pair
+	 * 2 we have used 4 references here
+	 * 	a. firstNode 
+	 * 	b. secondNode
+	 * 	c. secondNodeNext
+	 * 	d. previousNode - It is very important , though with the above 3 we will be able to change the
+	 * 		links, but remember if we are not keeping a tab on the previousNode before swap, then the link
+	 * 		will be lost.
+	 * 
+	 * Approach 2
+	 * Replace the data. but this approach is not recommended.
+	 */
+	public void pairWiseSwapNode() {
+		SinglyNode firstNode = this.headNode;
+		SinglyNode secondNode = firstNode.getNext();
+		this.headNode = secondNode;
+		SinglyNode previousNode = null;
+		while(firstNode != null && firstNode.getNext() != null) {
+			SinglyNode secondNodeNext = secondNode.getNext();
+			secondNode.setNext(firstNode);
+			firstNode.setNext(secondNodeNext);
+			if(previousNode != null)
+				previousNode.setNext(secondNode);
+			
+			previousNode = firstNode;
+			firstNode = firstNode.getNext();
+			if(firstNode != null)
+				secondNode = firstNode.getNext();
+		}
 	}
 	
 	public SinglyNode getHeadNode() {
