@@ -1,6 +1,9 @@
 package com.pshat.learning.datastructures.linkedlist;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -18,6 +21,8 @@ import java.util.Set;
  * 11 detect and remove loop using floyd technique - detectAndRemoveLoop()
  * 12 Print the intersection of 2 linked list, if it exists - printIntersectionOfList()
  * 13 Pair wise swap node - pairWiseSwapNode()
+ * 14 Clone a linkedList with random pointer using hashmap - cloneLinkedListRandomPointerUsingHashMap()
+ * 15 Clone a linkedList with random pointer using dummy references - cloneLinkedListRandomPointerUsingDummyReferences
  */
 public class SinglyLinkedList {
 	
@@ -412,6 +417,93 @@ public class SinglyLinkedList {
 			firstNode = firstNode.getNext();
 			if(firstNode != null)
 				secondNode = firstNode.getNext();
+		}
+	}
+	
+/**
+ * Approach
+ * 1. Traverse the original linked list and make a copy in terms of data.
+ * 2. Make a hash map of key value pair with original linked list node and copied linked list node.
+ * 3. Traverse the original linked list again and using the hash map adjust the next and random reference of cloned linked list nodes.	
+ */
+	public void cloneLinkedListRandomPointerUsingHashMap() {
+		SinglyNode currentNode = this.headNode;
+		Map<SinglyNode,SinglyNode> map = new HashMap<>();
+		while(currentNode != null) {
+			SinglyNode node = new SinglyNode();
+			node.setData(currentNode.getData());
+			map.put(currentNode, node);
+			currentNode = currentNode.getNext();
+		}
+		
+		for(Entry<SinglyNode,SinglyNode> entry:map.entrySet()) {
+			SinglyNode originalNode = entry.getKey();
+			SinglyNode clonedNode = entry.getValue();
+			SinglyNode clonedNodeNextNode = map.get(originalNode.getNext());
+			SinglyNode clonedNodeRandomNode = map.get(originalNode.getRandom());
+			clonedNode.setNext(clonedNodeNextNode);
+			clonedNode.setRandom(clonedNodeRandomNode);
+		}
+	}
+
+	/**
+	 * Approach :-
+	 * 1 We will modify the original list, for every node we will create an intermediate temporary node, and will change the link
+	 * means originalNode1->cloneOfOriginalNode1->originalNode2->cloneOfOriginalNode2 like this, till originalNodeN next is null.
+	 * In this we will only create the dummy node,set data and next.
+	 * 2 Once we have all the nodes cloned, we will now add the random pointer, we will find the random pointer of originalNode1,
+	 * the next of originalNode1 random node will be the random pointer for cloneOfOriginalNode1, this will be done for every node.
+	 * 3 Now once we have made clone, we will now separate the two list into - original list and cloned list
+	 */
+	public void cloneLinkedListRandomPointerUsingDummyReferences() {
+		SinglyNode currentNode = this.headNode;
+		while(currentNode != null) {
+			SinglyNode nextNode = currentNode.getNext();
+			SinglyNode tempIntermediateNode = new SinglyNode();
+			tempIntermediateNode.setNext(nextNode);
+			tempIntermediateNode.setData(currentNode.getData());
+			currentNode.setNext(tempIntermediateNode);
+			currentNode = nextNode;
+		}
+		currentNode = this.headNode;
+		while(currentNode != null) {
+			SinglyNode tempNode = currentNode.getNext();
+			SinglyNode randomNode = currentNode.getRandom();
+			tempNode.setRandom(randomNode.getNext());
+			currentNode = tempNode.getNext();
+		}
+		currentNode = this.headNode;
+		SinglyNode cloneHead = currentNode.getNext();
+		SinglyNode cloneCurrent = cloneHead;
+		while(cloneCurrent.getNext() != null) {
+			SinglyNode originalNext = cloneCurrent.getNext();
+			SinglyNode cloneNext = originalNext.getNext();
+			cloneCurrent.setNext(cloneNext);
+			currentNode.setNext(originalNext);
+			cloneCurrent = cloneNext;
+			currentNode = originalNext;
+		}
+		currentNode.setNext(null);
+		System.out.println("========Original List=========");
+		printAllWithRandomNode(this.headNode);
+		System.out.println("========Cloned List=========");
+		printAllWithRandomNode(cloneHead);
+	}
+	
+	/**
+	 * Print all the elements of the list.
+	 */
+	public void printAllWithRandomNode(SinglyNode headNode) {
+		if(headNode != null) {
+			SinglyNode node = headNode;
+			while(node != null) {
+				int nextNodeData = node.getNext() != null ? node.getNext().getData():-1;
+				int randomNodeData = node.getRandom() != null ? node.getRandom().getData():-1;
+				System.out.println("Node is: " + node.getData() + " Node Next is :" + nextNodeData + " Node Random is " + randomNodeData + " Hashcode of node is : " + node.hashCode());
+				node = node.getNext();
+			}
+		}else {
+			System.out.println("Empty List");
 		}
 	}
 	

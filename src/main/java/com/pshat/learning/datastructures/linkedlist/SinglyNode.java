@@ -4,6 +4,8 @@ public class SinglyNode {
 	
 	private SinglyNode next;
 	
+	private SinglyNode random;
+	
 	public SinglyNode() {}
 		
 	public SinglyNode(SinglyNode next, int data) {
@@ -20,6 +22,14 @@ public class SinglyNode {
 
 	public void setNext(SinglyNode next) {
 		this.next = next;
+	}
+	
+	public SinglyNode getRandom() {
+		return random;
+	}
+
+	public void setRandom(SinglyNode random) {
+		this.random = random;
 	}
 
 	public int getData() {
