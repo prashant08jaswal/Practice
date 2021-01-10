@@ -34,19 +34,27 @@ public class SinglyLinkedList {
 	 * 2  else we will traverse the list, till we find the last element, and then we will  
 	 */
 	public SinglyNode insert(int data) {
-		SinglyNode newNode = null;
+		SinglyNode newNode = new SinglyNode(null,data);
 		if(this.headNode == null) {
-			newNode = new SinglyNode(null,data);
 			this.headNode = newNode;
 		}else {
 			SinglyNode insertAfter = this.headNode;
 			while(insertAfter.getNext() != null) {
 				insertAfter = insertAfter.getNext();
 			}
-			newNode = new SinglyNode(null,data);
 			insertAfter.setNext(newNode);
 		}
 		return newNode;
+	}
+	
+	/**
+	 * Approach
+	 * We will keep changing the head with the new node, and the next of this new node will be the pervious head.
+	 */
+	public SinglyNode insertAtTheBeginning(int data) {
+		SinglyNode node = new SinglyNode(this.headNode,data);
+		this.headNode = node;
+		return node;
 	}
 	
 	/**
@@ -54,16 +62,18 @@ public class SinglyLinkedList {
 	 */
 	public void printAll() {
 		if(this.headNode != null) {
-			SinglyNode node = this.headNode;
-			while(node != null) {
-				System.out.println(node.getData());
-				node = node.getNext();
-			}
+			printAllRecursively(this.headNode);
 		}else {
 			System.out.println("Empty List");
 		}
 	}
 	
+	private void printAllRecursively(SinglyNode node) {
+		if(node != null) {
+			System.out.println(node.getData());
+			printAllRecursively(node.getNext());
+		}
+	}
 	/**
 	 * Approach
 	 * 1. Here we will take the data , that needs to be removed along with the removeAllOccurrence flag, if the flag is true, all the occurrences will be removed else the first node
@@ -507,6 +517,83 @@ public class SinglyLinkedList {
 		}
 	}
 	
+	public int searchIteratively(int data) {
+		int position = 1;
+		SinglyNode currentNode = this.headNode;
+		while(currentNode != null) {
+			if(currentNode.getData() == data) {
+				return position;
+			}
+			position++;
+			currentNode = currentNode.getNext();
+		}
+		return -1;
+	}
+	
+	/**
+	 * Approach :-
+	 * {1,2,3,4,5,6,7,8} , k =4
+	 * 1 first traverse the linkedlist to reach to k+1 element. As per above eg k+1= 5
+	 * 2 k+1 will become the new head(if k is not equal to the length of the list).
+	 * 3 In case length of k = n , list will remain the same.
+	 */
+	public void rotate(int k) {
+        if(this.headNode==null)
+            return;
+        if(this.headNode.getNext() == null && k == 1)
+             return;
+        SinglyNode current = this.headNode;
+        SinglyNode previous = null;
+        for(int i = 0; i<k;i++){
+            previous = current;
+            current = current.getNext();
+        }
+        if(current != null){
+        	SinglyNode tempHead = current;
+            previous.setNext(null);
+            while(current.getNext() != null){
+                current = current.getNext();
+            }
+            current.setNext(this.headNode);
+            this.headNode = tempHead;
+        }
+    }
+	
+	public int searchRecursively(int data) {
+		return search(this.headNode, data);
+	}
+	
+	private int search(SinglyNode node,int data) {
+		if(node == null)
+			return -1;
+		if(node.getData()==data)
+			return 1;
+		int result = search(node.getNext(),data);
+		if(result < 0)
+			return -1;
+		else {
+			return result +1;
+		}
+	}
+	
+	public void deleteFirstNode() {
+		if(this.headNode != null) {
+			this.headNode = this.headNode.getNext();	
+		}
+	}
+	
+	public void deleteLastNode() {
+		SinglyNode current = this.headNode;
+		if(current.getNext() == null)
+			this.headNode = null;
+		else {
+			while(current.getNext().getNext() != null) {
+				current = current.getNext();
+			}
+			current.setNext(null);
+		}
+	}
+
 	public SinglyNode getHeadNode() {
 		return headNode;
 	}
